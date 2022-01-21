@@ -9,3 +9,7 @@ export interface IShop{
     itemCategory: string;
     itemQuantity: number
 }
+
+export interface IVisible{
+    visible: boolean;
+}
