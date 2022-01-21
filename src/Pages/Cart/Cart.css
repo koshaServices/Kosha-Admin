@@ -1,5 +1,68 @@
 .cartContainer{
-    position:absolute;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: green;
     justify-content:'center';
     align-items: center;
+}
+
+.storeDisplay{
+    position: fixed;
+    margin-top: 30;
+    width: 80%;
+    height: 100%;
+    display: block;
+    background:palevioletred;
+    right: 0
+}
+
+.topButtons{
+    line-height: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    /* margin-right: 10px; */
+    /* margin-top:10px; */
+    margin-bottom: 20px
+}
+
+.categoryNav{
+    padding: 10px;
+    position: fixed;
+    width: 19%;
+    height: 100%;
+    margin-top: 60px;
+    background:orange;
+}
+
+.categoryNavButton{
+    display: flex;
+    justify-content: space-between;
+}
+
+.categoriesNav{
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+}
+
+.addItem{
+    background: cyan;
+    padding: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.categoryItem{
+    background: red;
+    border-radius: 5px;
+    line-height: 1.5rem;
+    margin-top: 5px;
+    padding: 7px;
+}
+
+.itemContainer{
+    background: cyan
 }

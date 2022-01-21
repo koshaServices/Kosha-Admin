@@ -1,11 +1,10 @@
 .navbar {
-    position: fixed;
-    bottom: 0;
+    top: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     background-color: #2f90ed;
-    z-index: 1;
+    /* z-index: 1; */
 }
 
 .navCategory{

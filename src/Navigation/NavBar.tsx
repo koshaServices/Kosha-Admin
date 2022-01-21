@@ -1,5 +1,7 @@
+import { Container, Image } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Link, NavLink } from "react-router-dom";
+// import { Container, Div1, Div2 } from "./NavBarStyles";
 import "./Navigation.css";
 
 // import Services from "../Screens/Services/Services";
@@ -30,24 +32,27 @@ const NavItem = (props: NavItemProps) => {
 };
 
 const Navigation = () => {
-    const [value, setValue] = useState();
-
+    // const [value, setValue] = useSytate();
     return (
-        <header className="navbar">
-            <NavLink to={"/"} className="active-nav-item">
-                <NavItem navText="LoGO" icon="home" id="home" />
-            </NavLink>
+        <Container>
+            <div className="navbar">
+                <div className="navCategory">
+                    <NavLink to={"/"} className="active-nav-item">
+                        <Image src='koshalogo.png' alt='Logo' />
+                    </NavLink>
+                </div>
 
-            <div className="navCategory">
-                <NavLink to={"/Banners"} className="active-nav-item">
-                    <NavItem navText="Banners" icon="bag" id="store" />
-                </NavLink>
+                <div className="nav-item">
+                    <NavLink to={"/Banners"} className="active-nav-item">
+                        <NavItem navText="Banners" icon="bag" id="store" />
+                    </NavLink>
 
-                <NavLink to={"/Cart"} className="active-nav-item">
-                    <NavItem navText="Cart" icon="cart" id="cart" />
-                </NavLink>
+                    <NavLink to={"/Cart"} className="active-nav-item">
+                        <NavItem navText="Cart" icon="cart" id="cart" />
+                    </NavLink>
+                </div>
             </div>
-        </header>
+        </Container>
     );
 };
 
