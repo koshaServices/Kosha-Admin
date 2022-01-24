@@ -5,11 +5,10 @@ import "../../App.css";
 import "./Banners.css";
 import {
     Box,
-    Button,
-    Center,
     Container,
     Flex,
     Icon,
+    Modal,
     SimpleGrid,
     useDisclosure,
 } from "@chakra-ui/react";
@@ -18,8 +17,7 @@ import { FaSave } from "react-icons/fa";
 const Banners = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    // const initialRef = useRef<any>();
-    // const finalRef = useRef<any>();
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -59,60 +57,60 @@ const Banners = () => {
         <Container>
             <div className="contentGuides">
                 <div>Banners</div>
-                <button onClick={onOpen}>
-                    + Add
-                </button>
+                <button onClick={onOpen}>+ Add</button>
             </div>
             <Flex>
-                <div className="modalContainer">
-                    <div className="modalTitle">
-                        Description
-                        <input
-                            type="text"
-                            placeholder="Title ..."
-                            name="title"
-                            value={title}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className="modalTitle">
-                        Description
-                        <input
-                            type="text"
-                            placeholder="Description ..."
-                            name="description"
-                            value={description}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className="modalTitle">
-                        Link (URL)
-                        <input
-                            type="text"
-                            placeholder="http:// ..."
-                            name="linkURL"
-                            value={linkURL}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className="modalButtons">
-                        <div className="modalClose" onClick={onClose}>
-                            Close
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <div className="modalContainer">
+                        <div className="modalTitle">
+                            Description
+                            <input
+                                type="text"
+                                placeholder="Title ..."
+                                name="title"
+                                value={title}
+                                onChange={handleChange}
+                            />
                         </div>
-                        <div className="modalSend" onClick={addtitle}>
-                            <Icon as={FaSave} /> Save Banner
+
+                        <div className="modalTitle">
+                            Description
+                            <input
+                                type="text"
+                                placeholder="Description ..."
+                                name="description"
+                                value={description}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className="modalTitle">
+                            Link (URL)
+                            <input
+                                type="text"
+                                placeholder="http:// ..."
+                                name="linkURL"
+                                value={linkURL}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className="modalButtons">
+                            <div className="modalClose" onClick={onClose}>
+                                Close
+                            </div>
+                            <div className="modalSend" onClick={addtitle}>
+                                <Icon as={FaSave} /> Save Banner
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Modal>
 
                 <Box flex="1">
-                    <SimpleGrid columns={2} spacing={10}>
+                    <SimpleGrid columns={2} spacing={5}>
                         {bannerList.map((title: IBanner, key: number) => {
                             return (
-                                <Box bg="blue" height="100px">
+                                <Box>
                                     <BannerTask
                                         key={key}
                                         banner={title}

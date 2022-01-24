@@ -7,7 +7,8 @@ export interface IBanner{
 export interface IShop{
     itemName: string;
     itemCategory: string;
-    itemQuantity: number
+    itemPrice: number;
+    itemQuantity: number;
 }
 
 export interface IVisible{

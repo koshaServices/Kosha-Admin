@@ -2,6 +2,7 @@ import React from "react";
 import { IBanner } from "../Interfaces/Interfaces";
 import { Icon } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import "../Pages/Banners/Banners.css";
 
 interface Props {
     banner: IBanner;
@@ -12,9 +13,9 @@ const BannerTask = ({ banner, completeBanner }: Props) => {
     return (
         <div className="task">
             <div className="content">
-                <span>{banner.bannerTitle}</span>
-                <span>{banner.bannerDescription}</span>
-                <span>{banner.bannerLink}</span>
+                Title : <span>{banner.bannerTitle}</span>
+                Description : <span>{banner.bannerDescription}</span>
+                Link : <span>{banner.bannerLink}</span>
             </div>
 
             <div className="buttonContainer">
@@ -24,7 +25,7 @@ const BannerTask = ({ banner, completeBanner }: Props) => {
                         completeBanner(banner.bannerTitle);
                     }}
                 >
-                    <EditIcon w={15} h={15} color="white" />
+                    <EditIcon w={15} h={15} color="white" /> Edit
                 </button>
                 <button
                     className="deleteBtn"
@@ -32,7 +33,7 @@ const BannerTask = ({ banner, completeBanner }: Props) => {
                         completeBanner(banner.bannerTitle);
                     }}
                 >
-                    <DeleteIcon w={15} h={15} color="white" />
+                    <DeleteIcon w={15} h={15} color="white" /> Remove
                 </button>
             </div>
         </div>

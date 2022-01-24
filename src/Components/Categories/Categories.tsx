@@ -1,10 +1,10 @@
 import { Box, Center, Container } from "@chakra-ui/react";
 import React from "react";
 
-function Categories() {
+const Categories = () => {
     return (
         <Container>
-            <Center w="200px" bg="green.500">
+            <Center w="300px" bg="green.500">
                 <div className="categoriesNav">
                     <div className="">
                         <span
@@ -35,6 +35,6 @@ function Categories() {
             </Center>
         </Container>
     );
-}
+};
 
 export default Categories;
