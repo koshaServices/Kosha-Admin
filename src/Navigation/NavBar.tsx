@@ -34,7 +34,6 @@ const NavItem = (props: NavItemProps) => {
 const Navigation = () => {
     // const [value, setValue] = useSytate();
     return (
-        <Container>
             <div className="navbar">
                 <div className="navCategory">
                     <NavLink to={"/"} className="active-nav-item">
@@ -52,7 +51,6 @@ const Navigation = () => {
                     </NavLink>
                 </div>
             </div>
-        </Container>
     );
 };
 

@@ -1,7 +1,7 @@
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import React from "react";
 import { IShop } from "../../Interfaces/Interfaces";
-import { Icon } from "@chakra-ui/react";
+import { Icon, Image } from "@chakra-ui/react";
 import { FaPencilAlt } from "react-icons/fa";
 
 interface Props {
@@ -12,8 +12,13 @@ interface Props {
 const ProductsTask = ({ product, completeProduct }: Props) => {
     return (
         <div className="task">
-            <div className="">
-                <div className="itemImg">Image Att.</div>
+            <div style={{flexDirection:'row', justifyContent:'space-around'}}>
+                <div style={{
+                    width: '24px',
+                    height: '24px'
+                }}>
+                    <Image src='koshalogo.png' alt='item-image' />
+                </div>
                 <div
                     style={{
                         flexDirection: "row",

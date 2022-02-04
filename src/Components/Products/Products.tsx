@@ -41,11 +41,16 @@ const Products = () => {
             itemPrice: itemPrice,
             itemQuantity: itemQuantity,
         };
+        try{
         setProductList([...productList, newName]);
         setItemName("");
         setItemCategory("");
         setItemPrice(0);
         setItemQuantity(0);
+        onClose();
+        }catch(e){
+            alert('Failed to upload product')
+        }
     };
 
     const completeProduct = (itemNameToDelete: string): void => {
@@ -57,7 +62,9 @@ const Products = () => {
     };
 
     return (
-        <Box flex="1" p="20" bg="blue.400">
+        <Box 
+        // flex="1" 
+        p="20" bg="blue.400">
             <div className="topButtons">
                 <span
                     onClick={onOpen}
@@ -68,6 +75,7 @@ const Products = () => {
                         borderRadius: 5,
                         margin: 5,
                         padding: 5,
+                        cursor: 'pointer'
                     }}
                 >
                     + Product
@@ -81,6 +89,7 @@ const Products = () => {
                         borderRadius: 5,
                         margin: 5,
                         padding: 5,
+                        cursor: 'pointer'
                     }}
                 >
                     + Category
@@ -89,7 +98,7 @@ const Products = () => {
             <Spacer />
 
             <Modal isOpen={isOpen} onClose={onClose}>
-                <div className="modalContainer">
+                <div className="modalContainer" style={{marginTop: 5}}>
                     <div className="modalTitle">
                         Name
                         <input

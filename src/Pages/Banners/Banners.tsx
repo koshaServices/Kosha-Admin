@@ -1,37 +1,51 @@
 import React, { FC, ChangeEvent, useState, useRef } from "react";
 import BannerTask from "../../Components/BannerTask";
 import { IBanner, IVisible } from "../../Interfaces/Interfaces";
-import "../../App.css";
 import "./Banners.css";
 import {
     Box,
-    Container,
     Flex,
+    FormControl,
+    FormLabel,
+    Input,
+    Heading,
     Icon,
     Modal,
     SimpleGrid,
     useDisclosure,
+    useToast,
+    Button,
+    Center,
+    Textarea,
+    Spacer,
 } from "@chakra-ui/react";
 import { FaSave } from "react-icons/fa";
+import { firestore } from "../../APIs/firebase";
+import { doc } from "@firebase/firestore";
+import { setDoc } from "firebase/firestore";
 
-const Banners = () => {
+const Banners = (): JSX.Element => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [linkURL, setLinkURL] = useState<string>("");
     const [bannerList, setBannerList] = useState<IBanner[]>([]);
 
+    const toast = useToast();
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         if (event.target.name === "title") return setTitle(event.target.value);
 
-        if (event.target.name === "description")
-            return setDescription(event.target.value);
-
         if (event.target.name === "linkURL")
             return setLinkURL(event.target.value);
+    };
+
+    const handleDescription = (
+        event: ChangeEvent<HTMLTextAreaElement>
+    ): void => {
+        if (event.target.name === "description")
+            return setDescription(event.target.value);
     };
 
     const addtitle = (): void => {
@@ -40,9 +54,22 @@ const Banners = () => {
             bannerDescription: description,
             bannerLink: linkURL,
         };
-        setBannerList([...bannerList, newTitle]);
-        setTitle("");
-        setDescription("");
+        try {
+            setBannerList([...bannerList, newTitle]);
+            setTitle("");
+            setDescription("");
+            toFireStoreDB();
+            toast({
+                title: "Banner Saved.",
+                description: "You've successfuly created a new Banner.",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+            });
+            onClose();
+        } catch (e) {
+            alert("Banner not added");
+        }
     };
 
     const completeBanner = (titleNameToDelete: string): void => {
@@ -53,76 +80,155 @@ const Banners = () => {
         );
     };
 
+    const storageLocation = "Banners";
+
+    const toFireStoreDB = async () => {
+        const _banner = doc(firestore, `/Admin/Banner/Banners/${title}`);
+
+        const bannerData = {
+            title: title,
+            url: linkURL,
+            description: description,
+        };
+
+        try {
+            await setDoc(_banner, bannerData);
+
+            setTitle("");
+            setDescription("");
+            setLinkURL("");
+        } catch (error) {
+            console.log(error);
+            alert(`Banner not saved :\n  ${error}`);
+        }
+    };
+
     return (
-        <Container>
-            <div className="contentGuides">
-                <div>Banners</div>
-                <button onClick={onOpen}>+ Add</button>
-            </div>
-            <Flex>
-                <Modal isOpen={isOpen} onClose={onClose}>
-                    <div className="modalContainer">
-                        <div className="modalTitle">
-                            Description
-                            <input
-                                type="text"
-                                placeholder="Title ..."
-                                name="title"
-                                value={title}
-                                onChange={handleChange}
-                            />
-                        </div>
+        <>
+            <Box bg="crimson" color="white">
+                {/* <div className="contentGuides">
+                        <div>Banners</div>
+                        <Heading as='h3' size='md'>Banners</Heading>
+                        <Button mt={4} onClick={onOpen} bg="#2f90ed">
+                            + Add
+                        </Button>
+                    </div> */}
 
-                        <div className="modalTitle">
-                            Description
-                            <input
-                                type="text"
-                                placeholder="Description ..."
-                                name="description"
-                                value={description}
-                                onChange={handleChange}
-                            />
-                        </div>
+                <Flex>
+                    <Heading as="h3" size="md">
+                        Banners
+                    </Heading>
+                    <Spacer />
+                    <Button mt={4} onClick={onOpen} bg="#2f90ed">
+                        + Add
+                    </Button>
+                </Flex>
 
-                        <div className="modalTitle">
-                            Link (URL)
-                            <input
-                                type="text"
-                                placeholder="http:// ..."
-                                name="linkURL"
-                                value={linkURL}
-                                onChange={handleChange}
-                            />
-                        </div>
+                <Flex>
+                    <div>
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <Center>
+                                <Box
+                                    p={4}
+                                    w="50%"
+                                    borderRadius="md"
+                                    color="white"
+                                    bg="teal"
+                                >
+                                    <Box textAlign="center">
+                                        <Heading>Add Banner</Heading>
+                                    </Box>
 
-                        <div className="modalButtons">
-                            <div className="modalClose" onClick={onClose}>
-                                Close
-                            </div>
-                            <div className="modalSend" onClick={addtitle}>
-                                <Icon as={FaSave} /> Save Banner
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
+                                    <Box my={4} textAlign="left">
+                                        <form>
+                                            <FormControl>
+                                                <FormLabel>Title</FormLabel>
+                                                <Input
+                                                    type="text"
+                                                    placeholder="Title ..."
+                                                    name="title"
+                                                    value={title}
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
 
-                <Box flex="1">
-                    <SimpleGrid columns={2} spacing={5}>
-                        {bannerList.map((title: IBanner, key: number) => {
-                            return (
-                                <Box>
-                                    <BannerTask
-                                        key={key}
-                                        banner={title}
-                                        completeBanner={completeBanner}
-                                    />
+                                            <FormControl isRequired>
+                                                <FormLabel htmlFor="description">
+                                                    Description
+                                                </FormLabel>
+                                                <Textarea
+                                                    id="description"
+                                                    type="text"
+                                                    placeholder="Description ..."
+                                                    name="description"
+                                                    value={description}
+                                                    onChange={handleDescription}
+                                                    resize={"vertical"}
+                                                />
+                                            </FormControl>
+
+                                            <FormControl isRequired>
+                                                <FormLabel>
+                                                    Link (URL)
+                                                </FormLabel>
+                                                <Input
+                                                    type="text"
+                                                    placeholder="http:// ..."
+                                                    name="linkURL"
+                                                    value={linkURL}
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+
+                                            <div className="modalButtons">
+                                                <Button
+                                                    mt={4}
+                                                    onClick={onClose}
+                                                    bg="red"
+                                                >
+                                                    close
+                                                </Button>
+                                                <Button
+                                                    mt={4}
+                                                    type="submit"
+                                                    onClick={addtitle}
+                                                    bg="#2f90ed"
+                                                >
+                                                    <Icon as={FaSave} /> Save
+                                                    Banner
+                                                </Button>
+                                            </div>
+                                        </form>
+                                    </Box>
                                 </Box>
-                            );
-                        })}
-                    </SimpleGrid>
-                </Box>
-            </Flex>
-        </Container>
+                            </Center>
+                        </Modal>
+                    </div>
+
+                    <Box flex="1">
+                        <Center>
+                            <SimpleGrid columns={2} spacing={2}>
+                                {bannerList.map(
+                                    (title: IBanner, key: number) => {
+                                        return (
+                                            <Box>
+                                                <BannerTask
+                                                    key={key}
+                                                    banner={title}
+                                                    completeBanner={
+                                                        completeBanner
+                                                    }
+                                                />
+                                            </Box>
+                                        );
+                                    }
+                                )}
+                            </SimpleGrid>
+                        </Center>
+                    </Box>
+                </Flex>
+            </Box>
+        </>
     );
 };
 

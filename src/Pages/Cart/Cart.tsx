@@ -7,12 +7,22 @@ import Products from "../../Components/Products/Products";
 
 function Cart() {
     return (
-        <Container>
+        <>
             <Flex color="white">
-                <Categories />
-                <Products />
+                <Grid
+                    templateRows="repeat(2, 1fr)"
+                    templateColumns="repeat(5, 1fr)"
+                    gap={2}
+                >
+                    <GridItem rowSpan={1} colSpan={1} bg="tomato">
+                        <Categories />
+                    </GridItem>
+                    <GridItem colSpan={4} bg="tomato">
+                        <Products />
+                    </GridItem>
+                </Grid>
             </Flex>
-        </Container>
+        </>
     );
 }
 
